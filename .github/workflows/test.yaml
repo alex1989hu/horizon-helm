@@ -1,20 +1,33 @@
 name: Test
 
 on:
-    pull_request:
-    workflow_dispatch:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v3
+  test:
+    runs-on:
+      - runs-on=${{ github.run_id }}
+      - runner=2cpu-linux-x64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-            - name: Install Helm
-              uses: azure/setup-helm@v3
-              with:
-                version: v3.19.3
+      - name: Setup mise
+        uses: jdx/mise-action@v3
+        with:
+          version: 2026.6.14
 
-            - name: Test chart
-              run: make test
+      - name: Verify image tag
+        run: mise run check-image-tag
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.19.3
+
+      - name: Test chart
+        run: make test
