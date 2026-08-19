@@ -284,6 +284,11 @@ dnsConfig: {}
 ## @ref https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
 dnsPolicy: ""
 
+## Whether information about services should be injected into pod's environment variable
+##
+## @ref https://kubernetes.io/docs/tutorials/services/connect-applications-service/#accessing-the-service
+enableServiceLinks: true
+
 ## Service configuration
 service:
   ## Kubernetes service type
