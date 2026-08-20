@@ -313,6 +313,7 @@ spec:
       {{- if .Values.dnsPolicy }}
       dnsPolicy: {{ .Values.dnsPolicy | quote }}
       {{- end }}
+      enableServiceLinks: {{ .Values.enableServiceLinks }}
       volumes:
         {{- if and (not .Values.persistence.enabled) .Values.analytics.enabled }}
         - name: analytics

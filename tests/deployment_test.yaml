@@ -96,6 +96,26 @@ tests:
       - failedTemplate:
           errorMessage: horizontalAutoscaler.enabled and externalAutoscaler.enabled are mutually exclusive
 
+  - it: should render enableServiceLinks by default
+    template: deployment.yml
+    asserts:
+      - isKind:
+          of: Deployment
+      - equal:
+          path: spec.template.spec.enableServiceLinks
+          value: true
+
+  - it: should render enableServiceLinks when disabled
+    template: deployment.yml
+    set:
+      enableServiceLinks: false
+    asserts:
+      - isKind:
+          of: Deployment
+      - equal:
+          path: spec.template.spec.enableServiceLinks
+          value: false
+
   - it: should render hpa minReplicas when autoscaling is enabled
     set:
       horizontalAutoscaler.enabled: true
